@@ -21,7 +21,7 @@ Instance exposed on port 8001.
 cd eLabFTW
 docker-compose up -d # and wait(!)
 ```
-The first initialization takes really long time, even more than 10(15) minutes. If you are bored, check from time to time ```docker logs elabftw```. Message 
+The first initialization takes really long time, even more than 10(15) minutes. When you get bored, check from time to time ```docker logs elabftw```. Message 
 > s6-rc: fatal: timed out 
 > 
 > s6-sudoc: fatal: unable to get exit status from server: Operation timed out"
@@ -35,3 +35,18 @@ Therefore - wait and periodically check logs ```docker logs elabftw``` until you
 
 The first registered user becomes the superadmin. All other info in docs https://doc.elabftw.net/generalities.html. But in my tests, the link is unavailable.  I expect it has to deal with Nginx,  certificates and startup logic of the official container and have no exact explanation. Fortunately, the solution is simple - just restart containers ```docker compose down && docker compose up -d```.
 
+## Kadi4Mat
+Instance exposed on port 8002.
+
+### startup
+```shell
+cd Kadi4Mat
+docker-compose up -d # and wait(!)
+```
+ 
+
+```shell
+docker exec -it kadi4mat kadi db init
+docker exec -it kadi4mat kadi search init
+docker exec -it kadi4mat kadi db sample-data
+```

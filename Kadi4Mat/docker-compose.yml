@@ -1,0 +1,46 @@
+services:
+  web:
+    build: .
+    container_name: kadi4mat
+    depends_on:
+      - postgres
+      - redis
+      - elastic
+    volumes:
+      - kadi4mat-data:/data
+    ports:
+      - "8002:8000"
+
+  postgres:
+    image: postgres:16
+    container_name: kadi4mat-db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=kadi
+      - POSTGRES_USER=kadi
+      - POSTGRES_PASSWORD=kadi
+
+  redis:
+    image: redis:7
+    container_name: kadi4mat-redis
+    volumes:
+      - redis-data:/data
+
+  elastic:
+    image: elasticsearch:8.13.4
+    container_name: kadi4mat-elastic
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+
+volumes:
+  postgres-data:
+  kadi4mat-data:
+  redis-data:
+  elasticsearch-data:
