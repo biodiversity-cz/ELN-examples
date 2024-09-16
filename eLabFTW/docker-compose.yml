@@ -1,0 +1,66 @@
+name: elabftw
+
+networks:
+  elabftw-net:
+
+services:
+  web:
+    image: elabftw/elabimg:stable
+    restart: no
+    container_name: elabftw
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - elabftw-data:/elabftw/uploads
+    ports:
+      - "8001:443"
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=elabftw
+      - DB_USER=elabftw
+      - DB_PASSWORD=elabftw
+      - PHP_TIMEZONE=Europe/Prague
+      - TZ=Europe/Prague
+      - PHP_MAX_EXECUTION_TIME=300
+      - PHP_MAX_CHILDREN=20
+      - MAX_PHP_MEMORY=1G
+      - SECRET_KEY=def0000028e86090400de9e7db5edb90ee9b46665efa2eff4b695d8921f298d93c72bb01361b8e75723dd0dc8fcbbaad8a8662dbc09eeb62975826a8d2da36c85a3db17f
+
+      - SITE_URL=https://localhost:8001
+      - MAX_UPLOAD_SIZE=50M
+
+      # NGINX
+      - SERVER_NAME=localhost
+      - DISABLE_HTTPS=false
+      - ENABLE_LETSENCRYPT=false
+
+      - AUTO_DB_INIT=true
+      - AUTO_DB_UPDATE=true
+    networks:
+      - elabftw-net
+
+  mysql:
+    image: mysql:8.0
+    restart: no
+    container_name: elabftw-mysql
+    healthcheck:
+      test: "/usr/bin/mysql --user=$$MYSQL_USER --password=$$MYSQL_PASSWORD --execute 'SHOW DATABASES;'"
+      interval: 5s
+      timeout: 5s
+      retries: 42
+    environment:
+        - MYSQL_ROOT_PASSWORD=v3GGMJrzzkWC51Me18PE9Jn7ejPRzTv
+        - TZ=Europe/Prague
+        - MYSQL_DATABASE=elabftw
+        - MYSQL_USER=elabftw
+        - MYSQL_PASSWORD=elabftw
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - elabftw-net
+
+volumes:
+  mysql-data:
+  elabftw-data:
