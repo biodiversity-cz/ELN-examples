@@ -10,9 +10,9 @@ General points:
 
 Commands:
 * run them inside the specific ELN folder
-* start ```docker compose up -d --build```
-* stop  ```docker compose down```
-* stop and delete data (of the specific ELN) ```docker compose down -v```. 
+* start: ```docker compose up -d --build```
+* stop:  ```docker compose down```
+* stop and delete data (of the specific ELN): ```docker compose down -v```. 
 
 ## eLabFTW
 Instance exposed on port 8001. 
@@ -27,7 +27,7 @@ The first initialization takes really long time, even more than 10(15) minutes. 
 > 
 > s6-sudoc: fatal: unable to get exit status from server: Operation timed out"
 
-is OK, the initialization is running and you have to wait. I first restarted the containers in this stat - such an action led to a running instance, but with incomplete data in db tables - especially the "Default team" item in *teams* table, which makes the whole app impossible to use. 
+is OK, the initialization is running and you have to wait. I first restarted the containers in this state - such an action led to a running instance, but with incomplete data in db tables - especially the "Default team" item missing in *teams* table, which makes the whole app impossible to use. 
 
 Therefore - wait and periodically check logs ```docker logs elabftw``` until you reach this message:
 > ✓ Installation successful! You can now start using your eLabFTW instance.
@@ -39,7 +39,7 @@ The first registered user becomes the superadmin. All other info in docs https:/
 ## Kadi4Mat
 Instance exposed on port 8002. 
 
-Settings prepared for location https://localhost:8002 ("run and use on my laptop"). Not tested yet, but probably needs accommodate for specific IP the users will access to ("run on remote server"). If it's proven, edit listed locations before you start or cleanup first (```docker compose down -v```):
+Settings prepared for location https://localhost:8002 ("run and use on my laptop"). Not tested yet, but probably needs accommodate for specific IP the users will access to ("run on remote server"). If it's proven, edit listed locations before you start or after cleanup (```docker compose down -v```):
 * Kadi4Mat/Dockerfile:12
 * Kadi4Mat/kadi.conf:2,4,8
 * Kadi4Mat/kadi.py:8
