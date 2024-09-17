@@ -3,13 +3,14 @@ Electronic Lab Notebooks for testing purposes. Definitely not suitable for produ
 
 General points:
 * based on Docker, for simple CPU/RAM usage use ```docker stats```
-* http or self-signed certificates are a necessary limitation
+* http/self-signed certificates are a necessary limitation
+* SMTP (emails) and scheduled task/message queue (cron, Celery Beat etc.) ignored
 * if you run it on your own laptop, then the model call is https://localhost:8001; else if you run it on VM with IP address 192.168.xx.yy, then https://192.168.xx.yy:8001...
-* Stack contains passwords in plain text etc. - please think before run..
+* Stack contains passwords in plain text etc. - please think first, then act
 
 Commands:
 * run them inside the specific ELN folder
-* start ```docker compose up -d```
+* start ```docker compose up -d --build```
 * stop  ```docker compose down```
 * stop and delete data (of the specific ELN) ```docker compose down -v```. 
 
@@ -36,17 +37,17 @@ Therefore - wait and periodically check logs ```docker logs elabftw``` until you
 The first registered user becomes the superadmin. All other info in docs https://doc.elabftw.net/generalities.html. But in my tests, the link is unavailable.  I expect it has to deal with Nginx,  certificates and startup logic of the official container and have no exact explanation. Fortunately, the solution is simple - just restart containers ```docker compose down && docker compose up -d```.
 
 ## Kadi4Mat
-Instance exposed on port 8002.
+Instance exposed on port 8002. 
+
+Settings prepared for location https://localhost:8002 ("run and use on my laptop"). Not tested yet, but probably needs accommodate for specific IP the users will access to ("run on remote server"). If it's proven, edit listed locations before you start or cleanup first (```docker compose down -v```):
+* Kadi4Mat/Dockerfile:12
+* Kadi4Mat/kadi.conf:2,4,8
+* Kadi4Mat/kadi.py:8
 
 ### startup
 ```shell
 cd Kadi4Mat
-docker-compose up -d # and wait(!)
+docker-compose up -d --build
 ```
- 
+Should you need an admin role for a user, please execute ```docker exec -it kadi4mat bash```, you will step into the running container. Follow with ```kadi users sysadmin 1```, where "1" represents the ID of the user (incremental integer starting from 1, or you can check in GUI in Profile - *Account type: Local · Persistent ID: **XXX***). To exit container, execute ```exit``` - management of users is now available in the GUI using this user.
 
-```shell
-docker exec -it kadi4mat kadi db init
-docker exec -it kadi4mat kadi search init
-docker exec -it kadi4mat kadi db sample-data
-```
