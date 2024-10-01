@@ -51,3 +51,12 @@ docker-compose up -d --build
 ```
 Should you need an admin role for a user, please execute ```docker exec -it kadi4mat bash```, you will step into the running container. Follow with ```kadi users sysadmin 1```, where "1" represents the ID of the user (incremental integer starting from 1, or you can check in GUI in Profile - *Account type: Local · Persistent ID: **XXX***). To exit container, execute ```exit``` - management of users is now available in the GUI using this user.
 
+## RSpace
+Based on https://github.com/rspace-os/rspace-docker
+```shell
+cd RSpace
+docker-compose up -d --build
+```
+
+Instance exposed on port 8003, according the hostname see above and pay attention to:
+* RSpace/deployment.properties:14
