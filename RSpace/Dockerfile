@@ -3,7 +3,6 @@
 FROM tomcat:9-jre17
 ARG VERSION=2.3.0
 ARG STORAGE_PATH=${KADI_HOME}/storage
-ARG SERVER_NAME=localhost:8003
 
 RUN wget -O ROOT.war https://github.com/rspace-os/rspace-web/releases/download/${VERSION}/researchspace-${VERSION}.war \
     && mv ROOT.war  /usr/local/tomcat/webapps/ROOT.war

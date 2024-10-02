@@ -57,6 +57,7 @@ Based on https://github.com/rspace-os/rspace-docker
 cd RSpace
 docker-compose up -d --build
 ```
+First startup takes again approx 10min. Login with the username *sysadmin1* and the password *sysWisc23!*
 
 Instance exposed on port 8003, according the hostname see above and pay attention to:
 * RSpace/deployment.properties:14
