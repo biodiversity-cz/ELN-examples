@@ -61,3 +61,20 @@ First startup takes again approx 10min. Login with the username *sysadmin1* and 
 
 Instance exposed on port 8003, according the hostname see above and pay attention to:
 * RSpace/deployment.properties:14
+
+## Chemotion
+Instance exposed on port 8004. Based on https://www.chemotion.net/docs/eln/install_configure/manual_install#only-when-installing-or-upgrading-to-version-141
+
+Size of images is huge, download during the first run takes some minutes, startup is also very slow - sum approx 15 minutes for me.
+
+login as admin (ADM:PleaseChangeYourPassword) or Sign up as a new user
+
+### startup
+I experienced a problem during the first start, but simple rerun fixed it:
+
+```shell
+cd Chemotion
+docker compose up  # after several minutes eln reached "unhealthy" status and failed
+docker compose down # stop everything but keep data already initialized
+docker compose up -d # provide a second chance to initialize --> succeeded :-)
+```
